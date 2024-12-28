@@ -1,4 +1,4 @@
-const calculateBmi = (heightCm: number, weightKg: number): string => {
+export const calculateBmi = (heightCm: number, weightKg: number): string => {
   const heightM = heightCm / 100;
   const bmi = weightKg / (heightM * heightM);
 
@@ -13,12 +13,14 @@ const calculateBmi = (heightCm: number, weightKg: number): string => {
   }
 };
 
-const height = Number(process.argv[2]);
-const weight = Number(process.argv[3]);
+if (require.main === module) {
+  const height = Number(process.argv[2]);
+  const weight = Number(process.argv[3]);
 
-if (!height || !weight) {
-  console.error("Please provide valid height and weight as arguments.");
-  process.exit(1);
+  if (!height || !weight) {
+    console.error("Please provide valid height and weight as arguments.");
+    process.exit(1);
+  }
+
+  console.log(calculateBmi(height, weight));
 }
-
-console.log(calculateBmi(height, weight));
