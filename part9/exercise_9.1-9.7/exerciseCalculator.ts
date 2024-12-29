@@ -8,7 +8,7 @@ interface ExerciseResult {
   average: number;
 }
 
-const calculateExercises = (
+export const calculateExercises = (
   dailyHours: number[],
   target: number
 ): ExerciseResult => {
@@ -46,13 +46,15 @@ const calculateExercises = (
 // const dailyHours = [3, 0, 2, 4.5, 0, 3, 1];
 // const target = 2;
 
-const [target, ...dailyHours] = process.argv.slice(2).map(Number);
+if (require.main === module) {
+  const [target, ...dailyHours] = process.argv.slice(2).map(Number);
 
-if (!target || dailyHours.some(isNaN)) {
-  console.error(
-    "Please provide valid target and daily exercise hours as arguments."
-  );
-  process.exit(1);
+  if (!target || dailyHours.some(isNaN)) {
+    console.error(
+      "Please provide valid target and daily exercise hours as arguments."
+    );
+    process.exit(1);
+  }
+
+  console.log(calculateExercises(dailyHours, target));
 }
-
-console.log(calculateExercises(dailyHours, target));
