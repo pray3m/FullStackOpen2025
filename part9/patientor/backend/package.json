@@ -7,8 +7,8 @@
     "ts-node": "ts-node",
     "calculateBmi": "ts-node bmiCalculator.ts",
     "calculateExercises": "ts-node exerciseCalculator.ts",
-    "start": "ts-node index.ts",
-    "dev": "ts-node-dev index.ts",
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node-dev src/index.ts",
     "lint": "eslint ."
   },
   "author": "",
