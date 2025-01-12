@@ -1,36 +1,26 @@
 import { v1 as uuid } from "uuid";
 import patients from "../../data/patients";
-import { PublicPatient } from "../types";
+import { NewPatientEntry, PatientEntry } from "../types";
+import toNewPatientEntry from "../utils";
 
 const id = uuid();
 
-const getEntries = (): PublicPatient[] => {
-  return patients.map(({ dateOfBirth, gender, id, name, occupation }) => ({
-    name,
-    id,
-    gender,
-    dateOfBirth,
-    occupation,
-  }));
-};
+const patientEntries: PatientEntry[] = patients.map((obj) => {
+  const newPatientEntry = toNewPatientEntry(obj);
+  const object: PatientEntry = {
+    ...newPatientEntry,
+    id: obj.id,
+  };
+  return object;
+});
 
-const addPatient = (
-  dateOfBirth: string,
-  gender: string,
-  name: string,
-  occupation: string,
-  ssn: string
-): PublicPatient => {
+const addPatient = (entry: NewPatientEntry): PatientEntry => {
   const newPatient = {
     id,
-    dateOfBirth,
-    gender,
-    name,
-    occupation,
-    ssn,
+    ...entry,
   };
   patients.push(newPatient);
   return newPatient;
 };
 
-export default { getEntries, addPatient };
+export default { patientEntries, addPatient };
