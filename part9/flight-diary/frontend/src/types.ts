@@ -21,4 +21,6 @@ export interface Diary {
   comment?: string;
 }
 
+export type DiaryEntry = Omit<Diary, "id">;
+
 export type DiariesResponse = Diary[];

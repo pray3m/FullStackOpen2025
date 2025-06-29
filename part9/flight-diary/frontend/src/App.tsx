@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { fetchAllDiaries } from "./api";
+import { createDiaryEntry, fetchAllDiaries } from "./api";
 import "./App.css";
-import { Diary, Visibility, Weather } from "./types";
+import { Diary, DiaryEntry, Visibility, Weather } from "./types";
+
+type DiaryEntryForm = {
+  date: string;
+  weather: Weather | "";
+  visibility: Visibility | "";
+  comment: string;
+};
 
 function App() {
   const [diaries, setDiaries] = useState<Diary[]>([]);
-  const [newEntry, setNewEntry] = useState<{
-    date: string;
-    weather: Weather | "";
-    visibility: Visibility | "";
-    comment: string;
-  }>({
+  const [newEntry, setNewEntry] = useState<DiaryEntryForm>({
     date: "",
     weather: "",
     visibility: "",
@@ -26,7 +28,7 @@ function App() {
     loadDiaries();
   }, []);
 
-  const handleChange = async (
+  const handleChange = (
     e: React.FormEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
@@ -38,9 +40,16 @@ function App() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("Form submitted", newEntry);
+    const entry: DiaryEntry = {
+      date: newEntry.date,
+      weather: newEntry.weather as Weather,
+      visibility: newEntry.visibility as Visibility,
+      comment: newEntry.comment,
+    };
+    const created = await createDiaryEntry(entry);
+    setDiaries(diaries.concat(created));
   };
 
   return (
